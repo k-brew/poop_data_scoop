@@ -18,8 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 First make sure you have a Google account (or a specific one you would like to use)
 
 
-
-Load packages to be used
+Load packages in console to be used
 ```{r}
 library(pacman) # Loading package manager
 p_load(googledrive) # Installing and loading additional packages
@@ -28,6 +27,10 @@ p_load(googledrive) # Installing and loading additional packages
 Use the `googledrive` package to 
 
 ```{r}
-
+# Downloading file (set overwite = F if downloading for first time)
+drive_download("scooper_form_responses", type = "csv", overwrite = T)
+scooper_df = readr::read_csv("scooper_form_responses.csv")
 ```
+
+
 
