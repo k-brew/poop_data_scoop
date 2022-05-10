@@ -9,8 +9,8 @@ There is a cost that comes with pet ownership which often goes unconsidered when
 Group 1 – The Landholders (`landholders`)   
   -	Primary residence of owner characterized by one (or more) of the following:  
    -	Private yard with fenced property perimeter (includes “invisible fences”)  
-    o	Large acreage  
-      -	Assumes fido is trusted to roam property and returns home when called  
+   -	Large acreage  
+   -	Assumes fido is trusted to roam property and returns home when called  
     o	Other characteristics that enable fido to regularly be outside unsupervised without concerns for safety, worry to owner, or issue to public  
       -	Can include mounted leashes if properly secured  
   •	Typically associated with higher income**  
