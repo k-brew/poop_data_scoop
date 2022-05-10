@@ -7,8 +7,8 @@ Last major update -- 5.10.22
 There is a cost that comes with pet ownership which often goes unconsidered when it comes to deciding whether to adopt a furry friend or when considering housing options for some pet-owners (hereafter referred to simply as owners). That cost can be defined by the time, effort-expenditure, and cognitive effect associated with ensuring that fido is (or fidos are) able to meet their excretory needs. In the context of this analysis, we will generalize owners as belonging to one of two groups.
 
 Group 1 – The Landholders (`landholders`)   
-  •	Primary residence of owner characterized by one (or more) of the following:  
-    o	Private yard with fenced property perimeter (includes “invisible fences”)  
+  -	Primary residence of owner characterized by one (or more) of the following:  
+   -	Private yard with fenced property perimeter (includes “invisible fences”)  
     o	Large acreage  
       -	Assumes fido is trusted to roam property and returns home when called  
     o	Other characteristics that enable fido to regularly be outside unsupervised without concerns for safety, worry to owner, or issue to public  
