@@ -18,14 +18,14 @@ There is a cost that comes with pet ownership which often goes unconsidered when
         -	Environmental, product, and/or other activities for enrichment  
         -	Obedience training  
         
-### Group 2 – The Occupants (`occupants`)   
+### Group 2 – The Occupants (`occupants`)  
   -	Primary residence of owner characterized as:  
     -	Without an outside-accessible door from dwelling  
         -	Most units in apartments and condominiums  
         -	Many townhouses and duplexes/multiplex no yard or with communal areas  
     -	Rented private room that prohibit animals in shared living spaces  
     -	Characteristics otherwise that prevent fido from regularly being allowed outside unsupervised  
-  -	Typically associated with lower income**  
+  -	Typically associated with lower income** 
 
 
      *While the grouping/categorization is more ambiguous for certain urban dwellers who may have higher income, costs-of-living 
