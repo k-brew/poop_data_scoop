@@ -1,0 +1,33 @@
+---
+date: "3/13/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Requirements
+   * Google account
+   * `R`
+   * `R` pacakges
+      - `pacman` - *package manager*
+      - `googledrive` - *for reading data files*
+
+## Getting Started
+
+First make sure you have a Google account (or a specific one you would like to use)
+
+
+
+Load packages to be used
+```{r}
+library(pacman) # Loading package manager
+p_load(googledrive) # Installing and loading additional packages
+```
+
+Use the `googledrive` package to 
+
+```{r}
+
+```
+
