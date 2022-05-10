@@ -6,7 +6,7 @@ Last major update -- 5.10.22
 ## Overview
 There is a cost that comes with pet ownership which often goes unconsidered when it comes to deciding whether to adopt a furry friend or when considering housing options for some pet-owners (hereafter referred to simply as owners). That cost can be defined by the time, effort-expenditure, and cognitive effect associated with ensuring that fido is (or fidos are) able to meet their excretory needs. In the context of this analysis, we will generalize owners as belonging to one of two groups.
 
-### Group 1 – The Landholders (`landholders`)   
+### Group 1 – The Landholders (`landholders`)  
   -	Primary residence of owner characterized by one (or more) of the following:  
     -	Private yard with fenced property perimeter (includes “invisible fences”)  
     -	Large acreage  
@@ -25,7 +25,7 @@ There is a cost that comes with pet ownership which often goes unconsidered when
         -	Many townhouses and duplexes/multiplex no yard or with communal areas  
     -	Rented private room that prohibit animals in shared living spaces  
     -	Characteristics otherwise that prevent fido from regularly being allowed outside unsupervised  
-  -	Typically associated with lower income** 
+  -	Typically associated with lower income**   
 
 
      *While the grouping/categorization is more ambiguous for certain urban dwellers who may have higher income, costs-of-living 
