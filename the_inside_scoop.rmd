@@ -20,17 +20,36 @@ First make sure you have a Google account (or a specific one you would like to u
 
 Load packages in console to be used
 ```{r}
-library(pacman) # Loading package manager
-p_load(googledrive) # Installing and loading additional packages
+library(pacman) # Package manager (installs and loads)
+p_load(googledrive, # Main package
+       dplyr, # For cleaning and wrangling
+       magrittr) # For pipes
 ```
 
-Use the `googledrive` package to 
+Use the `googledrive` package to download file
+- future runs will 
 
 ```{r}
-# Downloading file (set overwite = F if downloading for first time)
+# Downloading file (set overwrite = F if downloading for first time)
 drive_download("scooper_form_responses", type = "csv", overwrite = T)
 scooper_df = readr::read_csv("scooper_form_responses.csv")
 ```
+Splitting the auto-generated time stamp into `date` and `time` columns
 
+```{r}
+scooper = scooper_df %>%
+   tidyr::separate(Timestamp, c("Date", "Time"),
+                   sep = " ") # Separating at spacing
+```
 
+## Cleaning and wrangling
+```{r}
+scooper %<>%
+   rename("Stool" = "Shit") # Renaming for civility's sake
+```
+
+Creating data frame for each dog seperatly
+```{r}
+GD_scoop = # The 'scoop' on 
+```
 
