@@ -1,4 +1,4 @@
-## Construction in progress-  If you are reading this, please pardon the mess :)
+#### Construction in progress-  If you are reading this, please pardon the mess :)
 
 ## Version 1.0 - by Kyle Brewster
 Last major update -- 5.10.22
@@ -9,23 +9,23 @@ There is a cost that comes with pet ownership which often goes unconsidered when
 Group 1 – The Landholders (`landholders`)   
   •	Primary residence of owner characterized by one (or more) of the following:  
       o	Private yard with fenced property perimeter (includes “invisible fences”)  
-      o	Large acreage
-        -	Assumes fido is trusted to roam property and returns home when called
-o	Other characteristics that enable fido to regularly be outside unsupervised without concerns for safety, worry to owner, or issue to public
-        -	Can include mounted leashes if properly secured
-  •	Typically associated with higher income**
-      o	Ample discretionary income affords opportunities for additional pet amenities, such as
-        -	Environmental, product, and/or other activities for enrichment
-        -	Obedience training
+      o	Large acreage  
+        -	Assumes fido is trusted to roam property and returns home when called  
+o	Other characteristics that enable fido to regularly be outside unsupervised without concerns for safety, worry to owner, or issue to public  
+        -	Can include mounted leashes if properly secured  
+  •	Typically associated with higher income**  
+      o	Ample discretionary income affords opportunities for additional pet amenities, such as  
+        -	Environmental, product, and/or other activities for enrichment  
+        -	Obedience training  
         
-Group 2 – The Occupants (`occupants`)
-   •	Primary residence of owner characterized as:
-      o	Without an outside-accessible door from dwelling
-          -	Most units in apartments and condominiums
-          -	Many townhouses and duplexes/multiplex no yard or with communal areas
-      o	Rented private room that prohibit animals in shared living spaces
-      o	Characteristics otherwise that prevent fido from regularly being allowed outside unsupervised
-   •	Typically associated with lower income**
+Group 2 – The Occupants (`occupants`)  
+   •	Primary residence of owner characterized as:  
+      o	Without an outside-accessible door from dwelling  
+          -	Most units in apartments and condominiums  
+          -	Many townhouses and duplexes/multiplex no yard or with communal areas  
+      o	Rented private room that prohibit animals in shared living spaces  
+      o	Characteristics otherwise that prevent fido from regularly being allowed outside unsupervised  
+   •	Typically associated with lower income**  
 
 <font size="1"> This is my text number1</font>
 <font size="6"> This is my text number1</font>
