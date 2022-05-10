@@ -18,7 +18,7 @@ There is a cost that comes with pet ownership which often goes unconsidered when
         -	Environmental, product, and/or other activities for enrichment  
         -	Obedience training  
         
-### Group 2 – The Occupants (`occupants`)  
+### Group 2 – The Occupants (`occupants`)     
   -	Primary residence of owner characterized as:  
     -	Without an outside-accessible door from dwelling  
         -	Most units in apartments and condominiums  
