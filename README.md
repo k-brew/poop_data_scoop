@@ -35,4 +35,15 @@ Many ` landholders ` may not truly consider this potential cost in pet ownership
 
 ----------------------
 
+
+While other software/applications exist attempting to achieve similar functionality, I believe that 'The Scoop' is preferable for several reasons:
+  - Open source
+  - Attempts to deal with practical concerns (e.g. convenience of use, accuracy of predictions, dealing with missing values)
+  - FREE
+  - Cross-platform interoperability
+
+
+
+
+
 Got interrupted, sorry for the cliffhanger, stay tuned for more! 
