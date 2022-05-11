@@ -17,19 +17,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 First make sure you have a Google account (or a specific one you would like to use)
 
+```{r}
+(.packages()) # To check packages
+
+```
+
 
 Load packages in console to be used
 ```{r}
 library(pacman) # Package manager (installs and loads)
 p_load(googledrive, # Main package
        dplyr, # For cleaning and wrangling
-       magrittr) # For pipes
+       magrittr, # For pipes
+       kableExtra, # For making pretty tables
+       ggplot2)    # Pretty graphs/visuals
 ```
 
 Use the `googledrive` package to download file
 - future runs will 
 
-```{r}
+```{r cache=TRUE}
 # Downloading file (set overwrite = F if downloading for first time)
 drive_download("scooper_form_responses", type = "csv", overwrite = T)
 scooper_df = readr::read_csv("scooper_form_responses.csv")
@@ -37,19 +44,63 @@ scooper_df = readr::read_csv("scooper_form_responses.csv")
 Splitting the auto-generated time stamp into `date` and `time` columns
 
 ```{r}
-scooper = scooper_df %>%
+scooper = scooper_df %>% # To preserve original data frame
    tidyr::separate(Timestamp, c("Date", "Time"),
-                   sep = " ") # Separating at spacing
+                   sep = " ") %>% # Separating at column spacing
+   rename("Stool" = "Shit") %>% # Renaming for civility's sake
+   mutate(both =       # Creating an variable for outings with both dogs
+             if_else(`Which Dog?`=="Both", TRUE, FALSE),
+          id = row_number())
 ```
 
-## Cleaning and wrangling
+Creating data frame for each dog separately
 ```{r}
-scooper %<>%
-   rename("Stool" = "Shit") # Renaming for civility's sake
+S_scoop = scooper %>% # The 'scoop' on our Great Dane
+   group_by(`Which Dog?`) %>%
+   filter(`Which Dog?`=="Both"|`Which Dog?`=="Siobhan") %>%
+   ungroup() %>%
+   select(-c(`Which Dog?`)) # Removing now-irrelevant column
+
+B_scoop = scooper %>% # The 'scoop' on our Wolfhound
+   group_by(`Which Dog?`) %>%
+   filter(`Which Dog?`=="Both"|`Which Dog?`=="Braonin") %>%
+   ungroup()%>%
+   select(-c(`Which Dog?`)) # Removing now-irrelevant column
 ```
 
-Creating data frame for each dog seperatly
+First taking a look at the inspiration for this project, a dog whose whining never ceases
 ```{r}
-GD_scoop = # The 'scoop' on 
+
+```
+
+#### AUTOMATIC RETRIVAL OF METRICS
+
+
+Obtaining most-recent outing statistics for each dog
+```{r}
+B_last_outing = B_scoop %>% filter(id == (last(B_scoop$id)))
+S_last_outing = S_scoop %>% filter(id == (last(S_scoop$id)))
+
+# Condensing down to relevant information to fit within well-formatted table
+
+# Shorter date display
+B_last_outing$Date = substr(B_last_outing$Date,1,nchar(B_last_outing$Date)-5)
+S_last_outing$Date = substr(S_last_outing$Date,1,nchar(S_last_outing$Date)-5)
+
+# Removing unwanted variables for display
+B_last_outing %<>%
+   select(-c("Time","Indicator Value","Time-Out","Notes","both"))
+
+S_last_outing %<>%
+   select(-c("Time","Indicator Value","Time-Out","Notes","both"))
+
+
+
+```
+
+
+Summary of Last Outing
+```{r}
+kbl(B_last_outing)
 ```
 
