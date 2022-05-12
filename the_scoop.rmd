@@ -13,7 +13,8 @@ p_load(googledrive, # Main package
        dplyr, # For cleaning and wrangling
        magrittr, # For pipes
        kableExtra, # For making pretty tables
-       ggplot2)    # Pretty graphs/visuals
+       ggplot2    # Pretty graphs/visuals
+       )
 
 # Downloading file (set overwrite = F if downloading for first time)
 drive_download("scooper_form_responses", type = "csv", overwrite = T)
@@ -64,10 +65,11 @@ S_last_outing %<>%
 
 
 
-
 ```{r echo=FALSE}
-# Cleaning for pretties presentation
+# Source for icons
+icons_txt <- read.delim("icons.txt")
 
+# Cleaning for pretties presentation - B
 B_table = B_last_outing %>% select(-c("id")) %>%
    mutate(Urine    = grepl("1_B",B_last_outing$Urine),
           Stool    = grepl("1_B",B_last_outing$Stool))%>%
@@ -83,10 +85,51 @@ B_table = B_last_outing %>% select(-c("id")) %>%
 B_table2 = B_table[, c(1,6,2,4,5)]
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-kbl(B_table2, col.names = NULL, longtable = T)
+```{r S_table_cleaning echo=FALSE}
+# Cleaning for pretties presentation - B
+S_table = S_last_outing %>% select(-c("id")) %>%
+   mutate(Urine    = grepl("1_B",S_last_outing$Urine),
+          Stool    = grepl("1_B",S_last_outing$Stool))%>%
+   rename(" 💩 " = "Stool",
+          " 💦 " = "Urine")%>%
+   tidyr::separate(`Time-In`, c("Time", "AM/PM"),
+                   sep = " ")%>%
+   mutate(Time   = gsub('.{0,3}$', '', .$Time),
+          "🌚/🌞"= if_else("AM/PM"=="AM","🌞","🌚"),
+          " 💩 " = if_else(.[[5]]==TRUE,"💩"," "),
+          " 💦 "= if_else(.[[4]]==TRUE,"💦"," "))%>%
+   rename(" "= "🌚/🌞")
+S_table2 = S_table[, c(1,6,2,4,5)]
 ```
 
 
 
+**Last Outing (for each dog)**
+Braonin
+```{r B_last_table echo=FALSE}
+kbl(B_table2, col.names = NULL)
+```
+
+Siobhan
+```{r S_last_table echo=FALSE}
+kbl(S_table2, col.names = NULL)
+```
+
+
+**The Latest Scoop**
+```{r echo=FALSE}
+# Cleaning & Wrangling for the recent scoop
+#### For B
+
+
+#### For S
+```
+Braonin
+```{r echo=FALSE}
+kbl(B_scoop_tab)
+```
+Siobhan
+```{r echo=FALSE}
+kbl(B_table2)
+```
 
