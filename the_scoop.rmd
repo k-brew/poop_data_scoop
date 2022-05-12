@@ -5,45 +5,20 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-## Requirements
-* test
-   * Google account
-   * `R`
-   * `R` pacakges
-      - `pacman` - *package manager*
-      - `googledrive` - *for reading data files*
-
-## Getting Started
-
-First make sure you have a Google account (or a specific one you would like to use)
-
-```{r}
-(.packages()) # To check packages
-
-```
 
 
-Load packages in console to be used
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE, results='hide'}
 library(pacman) # Package manager (installs and loads)
 p_load(googledrive, # Main package
        dplyr, # For cleaning and wrangling
        magrittr, # For pipes
        kableExtra, # For making pretty tables
        ggplot2)    # Pretty graphs/visuals
-```
 
-Use the `googledrive` package to download file
-- future runs will 
-
-```{r cache=TRUE}
 # Downloading file (set overwrite = F if downloading for first time)
 drive_download("scooper_form_responses", type = "csv", overwrite = T)
 scooper_df = readr::read_csv("scooper_form_responses.csv")
-```
-Splitting the auto-generated time stamp into `date` and `time` columns
 
-```{r}
 scooper = scooper_df %>% # To preserve original data frame
    tidyr::separate(Timestamp, c("Date", "Time"),
                    sep = " ") %>% # Separating at column spacing
@@ -51,10 +26,7 @@ scooper = scooper_df %>% # To preserve original data frame
    mutate(both =       # Creating an variable for outings with both dogs
              if_else(`Which Dog?`=="Both", TRUE, FALSE),
           id = row_number())
-```
 
-Creating data frame for each dog separately
-```{r}
 S_scoop = scooper %>% # The 'scoop' on our Great Dane
    group_by(`Which Dog?`) %>%
    filter(`Which Dog?`=="Both"|`Which Dog?`=="Siobhan") %>%
@@ -66,14 +38,13 @@ B_scoop = scooper %>% # The 'scoop' on our Wolfhound
    filter(`Which Dog?`=="Both"|`Which Dog?`=="Braonin") %>%
    ungroup()%>%
    select(-c(`Which Dog?`)) # Removing now-irrelevant column
+
 ```
 
+```{r echo=FALSE}
 
-## AUTOMATIC RETRIVAL OF METRICS
+## Last outing records
 
-
-Last Outing Records
-```{r}
 B_last_outing = B_scoop %>% filter(id == (last(B_scoop$id)))
 S_last_outing = S_scoop %>% filter(id == (last(S_scoop$id)))
 
@@ -92,15 +63,30 @@ S_last_outing %<>%
 ```
 
 
-### Display
 
-note to self
 
-also add functionalty where it will compare ID and show different tables if IDs are same vs diff. 
-```{r}
-kbl(B_last_outing)
+```{r echo=FALSE}
+# Cleaning for pretties presentation
+
+B_table = B_last_outing %>% select(-c("id")) %>%
+   mutate(Urine    = grepl("1_B",B_last_outing$Urine),
+          Stool    = grepl("1_B",B_last_outing$Stool))%>%
+   rename(" 💩 " = "Stool",
+          " 💦 " = "Urine")%>%
+   tidyr::separate(`Time-In`, c("Time", "AM/PM"),
+                   sep = " ")%>%
+   mutate(Time   = gsub('.{0,3}$', '', .$Time),
+          "🌚/🌞"= if_else("AM/PM"=="AM","🌞","🌚"),
+          " 💩 " = if_else(.[[5]]==TRUE,"💩"," "),
+          " 💦 "= if_else(.[[4]]==TRUE,"💦"," "))%>%
+   rename(" "= "🌚/🌞")
+B_table2 = B_table[, c(1,6,2,4,5)]
 ```
 
-### Overall
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+kbl(B_table2, col.names = NULL, longtable = T)
+```
 
-### Last 3 Days
+
+
+

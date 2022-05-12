@@ -11,7 +11,7 @@
 
 
 
-<title>the_inside_scoop.knit</title>
+<title>the_scoop.knit</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -589,153 +589,26 @@ pre code {
 </div>
 
 
-<div id="requirements" class="section level2">
-<h2>Requirements</h2>
-<ul>
-<li>test
-<ul>
-<li>Google account</li>
-<li><code>R</code></li>
-<li><code>R</code> pacakges
-<ul>
-<li><code>pacman</code> - <em>package manager</em></li>
-<li><code>googledrive</code> - <em>for reading data files</em></li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-<div id="getting-started" class="section level2">
-<h2>Getting Started</h2>
-<p>First make sure you have a Google account (or a specific one you
-would like to use)</p>
-<pre class="r"><code>(.packages()) # To check packages</code></pre>
-<pre><code>## [1] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;  
-## [7] &quot;base&quot;</code></pre>
-<p>Load packages in console to be used</p>
-<pre class="r"><code>library(pacman) # Package manager (installs and loads)
-p_load(googledrive, # Main package
-       dplyr, # For cleaning and wrangling
-       magrittr, # For pipes
-       kableExtra, # For making pretty tables
-       ggplot2)    # Pretty graphs/visuals</code></pre>
-<p>Use the <code>googledrive</code> package to download file - future
-runs will</p>
-<pre class="r"><code># Downloading file (set overwrite = F if downloading for first time)
-drive_download(&quot;scooper_form_responses&quot;, type = &quot;csv&quot;, overwrite = T)</code></pre>
-<pre><code>## ! Using an auto-discovered, cached token.</code></pre>
-<pre><code>##   To suppress this message, modify your code or options to clearly consent to
-##   the use of a cached token.</code></pre>
-<pre><code>##   See gargle&#39;s &quot;Non-interactive auth&quot; vignette for more details:</code></pre>
-<pre><code>##   &lt;https://gargle.r-lib.org/articles/non-interactive-auth.html&gt;</code></pre>
-<pre><code>## ℹ The googledrive package is using a cached token for
-##   &#39;brewster.kyle@gmail.com&#39;.</code></pre>
-<pre><code>## Auto-refreshing stale OAuth token.</code></pre>
-<pre><code>## File downloaded:</code></pre>
-<pre><code>## • &#39;scooper_form_responses&#39; &lt;id: 17idefn7TC7_nKi4bfskqPX9ciWNuCfjYtc2teCZUeb0&gt;</code></pre>
-<pre><code>## Saved locally as:</code></pre>
-<pre><code>## • &#39;scooper_form_responses.csv&#39;</code></pre>
-<pre class="r"><code>scooper_df = readr::read_csv(&quot;scooper_form_responses.csv&quot;)</code></pre>
-<pre><code>## Rows: 111 Columns: 8</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (8): Timestamp, Which Dog?, Indicator Value, Time-Out, Time-In, Urine, S...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Splitting the auto-generated time stamp into <code>date</code> and
-<code>time</code> columns</p>
-<pre class="r"><code>scooper = scooper_df %&gt;% # To preserve original data frame
-   tidyr::separate(Timestamp, c(&quot;Date&quot;, &quot;Time&quot;),
-                   sep = &quot; &quot;) %&gt;% # Separating at column spacing
-   rename(&quot;Stool&quot; = &quot;Shit&quot;) %&gt;% # Renaming for civility&#39;s sake
-   mutate(both =       # Creating an variable for outings with both dogs
-             if_else(`Which Dog?`==&quot;Both&quot;, TRUE, FALSE),
-          id = row_number())</code></pre>
-<p>Creating data frame for each dog separately</p>
-<pre class="r"><code>S_scoop = scooper %&gt;% # The &#39;scoop&#39; on our Great Dane
-   group_by(`Which Dog?`) %&gt;%
-   filter(`Which Dog?`==&quot;Both&quot;|`Which Dog?`==&quot;Siobhan&quot;) %&gt;%
-   ungroup() %&gt;%
-   select(-c(`Which Dog?`)) # Removing now-irrelevant column
-
-B_scoop = scooper %&gt;% # The &#39;scoop&#39; on our Wolfhound
-   group_by(`Which Dog?`) %&gt;%
-   filter(`Which Dog?`==&quot;Both&quot;|`Which Dog?`==&quot;Braonin&quot;) %&gt;%
-   ungroup()%&gt;%
-   select(-c(`Which Dog?`)) # Removing now-irrelevant column</code></pre>
-</div>
-<div id="automatic-retrival-of-metrics" class="section level2">
-<h2>AUTOMATIC RETRIVAL OF METRICS</h2>
-<p>Last Outing Records</p>
-<pre class="r"><code>B_last_outing = B_scoop %&gt;% filter(id == (last(B_scoop$id)))
-S_last_outing = S_scoop %&gt;% filter(id == (last(S_scoop$id)))
-
-# Condensing down to relevant information to fit within well-formatted table
-
-# Shorter date display
-B_last_outing$Date = substr(B_last_outing$Date,1,nchar(B_last_outing$Date)-5)
-S_last_outing$Date = substr(S_last_outing$Date,1,nchar(S_last_outing$Date)-5)
-
-# Removing unwanted variables for display
-B_last_outing %&lt;&gt;%
-   select(-c(&quot;Time&quot;,&quot;Indicator Value&quot;,&quot;Time-Out&quot;,&quot;Notes&quot;,&quot;both&quot;))
-
-S_last_outing %&lt;&gt;%
-   select(-c(&quot;Time&quot;,&quot;Indicator Value&quot;,&quot;Time-Out&quot;,&quot;Notes&quot;,&quot;both&quot;))</code></pre>
-<div id="display" class="section level3">
-<h3>Display</h3>
-<p>note to self</p>
-<p>also add functionalty where it will compare ID and show different
-tables if IDs are same vs diff.</p>
-<pre class="r"><code>kbl(B_last_outing)</code></pre>
 <table>
-<thead>
-<tr>
-<th style="text-align:left;">
-Date
-</th>
-<th style="text-align:left;">
-Time-In
-</th>
-<th style="text-align:left;">
-Urine
-</th>
-<th style="text-align:left;">
-Stool
-</th>
-<th style="text-align:right;">
-id
-</th>
-</tr>
-</thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 3/24
 </td>
 <td style="text-align:left;">
-10:50:00 PM
+🌚
 </td>
 <td style="text-align:left;">
-1_Braonin, 1_Siobhan
+10:50
 </td>
 <td style="text-align:left;">
-0_Braonin, 1_Siobhan
+💦
 </td>
-<td style="text-align:right;">
-111
+<td style="text-align:left;">
 </td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="overall" class="section level3">
-<h3>Overall</h3>
-</div>
-<div id="last-3-days" class="section level3">
-<h3>Last 3 Days</h3>
-</div>
-</div>
 
 
 
