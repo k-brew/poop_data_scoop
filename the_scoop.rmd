@@ -13,8 +13,8 @@ p_load(googledrive, # Main package
        dplyr, # For cleaning and wrangling
        magrittr, # For pipes
        kableExtra, # For making pretty tables
-       ggplot2    # Pretty graphs/visuals
-       )
+       ggplot2,    # Pretty graphs/visuals
+       tidyverse) # For coding syntax
 
 # Downloading file (set overwrite = F if downloading for first time)
 drive_download("scooper_form_responses", type = "csv", overwrite = T)
@@ -85,7 +85,7 @@ B_table = B_last_outing %>% select(-c("id")) %>%
 B_table2 = B_table[, c(1,6,2,4,5)]
 ```
 
-```{r S_table_cleaning echo=FALSE}
+```{r echo=FALSE}
 # Cleaning for pretties presentation - B
 S_table = S_last_outing %>% select(-c("id")) %>%
    mutate(Urine    = grepl("1_B",S_last_outing$Urine),
@@ -96,40 +96,48 @@ S_table = S_last_outing %>% select(-c("id")) %>%
                    sep = " ")%>%
    mutate(Time   = gsub('.{0,3}$', '', .$Time),
           "🌚/🌞"= if_else("AM/PM"=="AM","🌞","🌚"),
-          " 💩 " = if_else(.[[5]]==TRUE,"💩"," "),
-          " 💦 "= if_else(.[[4]]==TRUE,"💦"," "))%>%
+          " 💩 " = if_else(.[[5]]==TRUE,"💩","❌"),
+          " 💦 "= if_else(.[[4]]==TRUE,"💦","❌"))%>%
    rename(" "= "🌚/🌞")
 S_table2 = S_table[, c(1,6,2,4,5)]
 ```
 
 
 
-**Last Outing (for each dog)**
+**Last Outing** (for each dog)
 Braonin
-```{r B_last_table echo=FALSE}
+```{r echo=FALSE}
 kbl(B_table2, col.names = NULL)
 ```
-
 Siobhan
-```{r S_last_table echo=FALSE}
+```{r echo=FALSE}
 kbl(S_table2, col.names = NULL)
 ```
 
+**The Latest Scoop** - Last 15 Outings
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# A look back at the last 15 outings 
 
-**The Latest Scoop**
-```{r echo=FALSE}
-# Cleaning & Wrangling for the recent scoop
-#### For B
+## First some cleaning
 
-
-#### For S
-```
-Braonin
-```{r echo=FALSE}
-kbl(B_scoop_tab)
-```
-Siobhan
-```{r echo=FALSE}
-kbl(B_table2)
+scooper_tab = scooper %>% 
+   mutate(B_Urine    = grepl("1_B",scooper$Urine),
+          B_Stool    = grepl("1_B",scooper$Stool),
+          S_Urine    = grepl("1_S",scooper$Urine),
+          S_Stool    = grepl("1_S",scooper$Stool)) %>%
+   tidyr::separate("Time-In", c("Time", "AM/PM"),
+                   sep = " ")%>%
+   transmute(
+      Date = substr(scooper$Date,1,nchar(scooper$Date)-5),
+      Time = gsub('.{0,3}$', '', .$Time),
+      `Which Dog?` = `Which Dog?`,
+      "💦" = if_else(B_Urine==TRUE,"💦","❌"), # For BRAONIN
+      "💩"= if_else(B_Stool==TRUE,"💦","❌"),
+      " 💦 "=if_else(S_Urine==TRUE,"💦","❌"),# For SIOBHAN
+      " 💩 "=if_else(S_Stool==TRUE,"💦","❌")) %>%
+   add_column(Empty_Col2 = "----", .after=5) %>%
+   rename(`----` = 6) %>% # fill space for rendered table
+   slice(tail(row_number(), 15))
+kbl(scooper_tab) # printing table
 ```
 
