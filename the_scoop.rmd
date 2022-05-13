@@ -79,8 +79,8 @@ B_table = B_last_outing %>% select(-c("id")) %>%
                    sep = " ")%>%
    mutate(Time   = gsub('.{0,3}$', '', .$Time),
           "🌚/🌞"= if_else("AM/PM"=="AM","🌞","🌚"),
-          " 💩 " = if_else(.[[5]]==TRUE,"💩"," "),
-          " 💦 "= if_else(.[[4]]==TRUE,"💦"," "))%>%
+          " 💩 " = if_else(.[[5]]==TRUE,"💩","❌"),
+          " 💦 "= if_else(.[[4]]==TRUE,"💦","❌"))%>%
    rename(" "= "🌚/🌞")
 B_table2 = B_table[, c(1,6,2,4,5)]
 ```
@@ -103,18 +103,17 @@ S_table2 = S_table[, c(1,6,2,4,5)]
 ```
 
 
-
-**Last Outing** (for each dog)
-Braonin
+<font size="3.75">&emsp; <u>**Last Outing**</u></font>  
+<font size="2.5"><i>&ensp;<u>Braonin</font></i></u>
 ```{r echo=FALSE}
 kbl(B_table2, col.names = NULL)
 ```
-Siobhan
+<font size="2.5"><i>&ensp;<u>Siobhan</font></i></u>
 ```{r echo=FALSE}
-kbl(S_table2, col.names = NULL)
+kbl(S_table2, col.names = NULL)  
 ```
-
-**The Latest Scoop** - Last 15 Outings
+<br>
+<font size="3.75">&emsp; <u>**The Latest Scoop**</u></font>
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # A look back at the last 15 outings 
 
@@ -124,7 +123,7 @@ scooper_tab = scooper %>%
    mutate(B_Urine    = grepl("1_B",scooper$Urine),
           B_Stool    = grepl("1_B",scooper$Stool),
           S_Urine    = grepl("1_S",scooper$Urine),
-          S_Stool    = grepl("1_S",scooper$Stool)) %>%
+          S_Stool    = grepl("1_S",scooper$Stool),) %>%
    tidyr::separate("Time-In", c("Time", "AM/PM"),
                    sep = " ")%>%
    transmute(
@@ -134,10 +133,17 @@ scooper_tab = scooper %>%
       "💦" = if_else(B_Urine==TRUE,"💦","❌"), # For BRAONIN
       "💩"= if_else(B_Stool==TRUE,"💦","❌"),
       " 💦 "=if_else(S_Urine==TRUE,"💦","❌"),# For SIOBHAN
-      " 💩 "=if_else(S_Stool==TRUE,"💦","❌")) %>%
-   add_column(Empty_Col2 = "----", .after=5) %>%
-   rename(`----` = 6) %>% # fill space for rendered table
+      " 💩 "=if_else(S_Stool==TRUE,"💦","❌"),
+      "am/pm"=if_else(`AM/PM`=="AM","🌞","🌚")) %>%
+   add_column(Empty_Col2 = "---", .after=5) %>%
+   rename(`---` = 6) %>% # fill space for rendered table
+   relocate("am/pm", .before = 2) %>%
    slice(tail(row_number(), 15))
-kbl(scooper_tab) # printing table
+   
+kbl(scooper_tab, col.names = NULL) # printing table
+```
+
+```{r message=FALSE, warning=FALSE}
+rmarkdown::render("the_scoop.rmd", "html_document")
 ```
 
